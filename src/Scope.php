@@ -266,7 +266,14 @@ class Scope
             }
 
             if (! empty($pagination)) {
-                $this->resource->setMetaValue(key($pagination), current($pagination));
+                $value = current($pagination);
+
+                if (isset($value['links']) && empty($value['links'])) {
+                    $value['links'] = null;
+                }
+
+                $this->resource->setMetaValue(key($pagination), $value);
+                // $this->resource->setMetaValue(key($pagination), array_filter(current($pagination)));
             }
         }
 
